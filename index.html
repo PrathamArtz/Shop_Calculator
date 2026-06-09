@@ -82,13 +82,27 @@
             border-bottom: 1px solid #e0e0e0;
             vertical-align: middle;
         }
-        .qty-input {
-            width: 110px;
+        .qty-input, .rate-input {
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 15px;
             text-align: center;
+            box-sizing: border-box;
+        }
+        .qty-input {
+            width: 100px;
+        }
+        .rate-input {
+            width: 80px;
+            font-weight: 600;
+            color: #2c3e50;
+            background-color: #fffdf9;
+        }
+        .rate-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            background-color: #fff;
         }
         .item-total {
             font-weight: 600;
@@ -165,63 +179,63 @@
         <thead>
             <tr>
                 <th>Product Name</th>
-                <th>Rate (₹)</th>
+                <th>Rate (₹/kg)</th>
                 <th>Quantity (in kg)</th>
                 <th class="text-right">Total (₹)</th>
             </tr>
         </thead>
         <tbody>
-            <tr class="product-row" data-name="Udad Papad" data-rate="140">
+            <tr class="product-row" data-name="Udad Papad">
                 <td>Udad Papad</td>
-                <td>₹140 / kg</td>
+                <td>₹ <input type="text" inputmode="decimal" class="rate-input" value="140" oninput="calculateBill()"></td>
                 <td><input type="text" inputmode="decimal" class="qty-input" placeholder="0" oninput="calculateBill()"> kg</td>
                 <td class="item-total">₹0.00</td>
             </tr>
-            <tr class="product-row" data-name="Poha Papad" data-rate="150">
+            <tr class="product-row" data-name="Poha Papad">
                 <td>Poha Papad</td>
-                <td>₹150 / kg</td>
+                <td>₹ <input type="text" inputmode="decimal" class="rate-input" value="150" oninput="calculateBill()"></td>
                 <td><input type="text" inputmode="decimal" class="qty-input" placeholder="0" oninput="calculateBill()"> kg</td>
                 <td class="item-total">₹0.00</td>
             </tr>
-            <tr class="product-row" data-name="Poha" data-rate="60">
+            <tr class="product-row" data-name="Poha">
                 <td>Poha</td>
-                <td>₹60 / kg</td>
+                <td>₹ <input type="text" inputmode="decimal" class="rate-input" value="60" oninput="calculateBill()"></td>
                 <td><input type="text" inputmode="decimal" class="qty-input" placeholder="0" oninput="calculateBill()"> kg</td>
                 <td class="item-total">₹0.00</td>
             </tr>
-            <tr class="product-row" data-name="Udad Dal" data-rate="140">
+            <tr class="product-row" data-name="Udad Dal">
                 <td>Udad Dal</td>
-                <td>₹140 / kg</td>
+                <td>₹ <input type="text" inputmode="decimal" class="rate-input" value="140" oninput="calculateBill()"></td>
                 <td><input type="text" inputmode="decimal" class="qty-input" placeholder="0" oninput="calculateBill()"> kg</td>
                 <td class="item-total">₹0.00</td>
             </tr>
-            <tr class="product-row" data-name="Shewya" data-rate="20">
+            <tr class="product-row" data-name="Shewya">
                 <td>Shewya</td>
-                <td>₹20 / kg</td>
+                <td>₹ <input type="text" inputmode="decimal" class="rate-input" value="20" oninput="calculateBill()"></td>
                 <td><input type="text" inputmode="decimal" class="qty-input" placeholder="0" oninput="calculateBill()"> kg</td>
                 <td class="item-total">₹0.00</td>
             </tr>
-            <tr class="product-row" data-name="Rava" data-rate="50">
+            <tr class="product-row" data-name="Rava">
                 <td>Rava</td>
-                <td>₹50 / kg</td>
+                <td>₹ <input type="text" inputmode="decimal" class="rate-input" value="50" oninput="calculateBill()"></td>
                 <td><input type="text" inputmode="decimal" class="qty-input" placeholder="0" oninput="calculateBill()"> kg</td>
                 <td class="item-total">₹0.00</td>
             </tr>
-            <tr class="product-row" data-name="Maida" data-rate="50">
+            <tr class="product-row" data-name="Maida">
                 <td>Maida</td>
-                <td>₹50 / kg</td>
+                <td>₹ <input type="text" inputmode="decimal" class="rate-input" value="50" oninput="calculateBill()"></td>
                 <td><input type="text" inputmode="decimal" class="qty-input" placeholder="0" oninput="calculateBill()"> kg</td>
                 <td class="item-total">₹0.00</td>
             </tr>
-            <tr class="product-row" data-name="Mirchu" data-rate="300">
+            <tr class="product-row" data-name="Mirchu">
                 <td>Mirchu</td>
-                <td>₹300 / kg</td>
+                <td>₹ <input type="text" inputmode="decimal" class="rate-input" value="300" oninput="calculateBill()"></td>
                 <td><input type="text" inputmode="decimal" class="qty-input" placeholder="0" oninput="calculateBill()"> kg</td>
                 <td class="item-total">₹0.00</td>
             </tr>
-            <tr class="product-row" data-name="Haldi" data-rate="280">
+            <tr class="product-row" data-name="Haldi">
                 <td>Haldi</td>
-                <td>₹280 / kg</td>
+                <td>₹ <input type="text" inputmode="decimal" class="rate-input" value="280" oninput="calculateBill()"></td>
                 <td><input type="text" inputmode="decimal" class="qty-input" placeholder="0" oninput="calculateBill()"> kg</td>
                 <td class="item-total">₹0.00</td>
             </tr>
@@ -254,11 +268,15 @@
 
         rows.forEach(row => {
             const name = row.getAttribute('data-name');
-            const rate = parseFloat(row.getAttribute('data-rate'));
-            const qtyInput = row.querySelector('.qty-input');
             
-            let rawValue = qtyInput.value.replace(/[^0-9.]/g, '');
-            const kgWeight = parseFloat(rawValue) || 0;
+            // Fetch dynamically from editable rate inputs safely
+            const rateInput = row.querySelector('.rate-input');
+            let rawRateValue = rateInput.value.replace(/[^0-9.]/g, '');
+            const rate = parseFloat(rawRateValue) || 0;
+            
+            const qtyInput = row.querySelector('.qty-input');
+            let rawQtyValue = qtyInput.value.replace(/[^0-9.]/g, '');
+            const kgWeight = parseFloat(rawQtyValue) || 0;
 
             const itemCost = rate * kgWeight;
             currentSubtotal += itemCost;
